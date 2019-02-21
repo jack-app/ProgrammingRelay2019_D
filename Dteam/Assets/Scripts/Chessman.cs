@@ -35,8 +35,10 @@ public class Chessman : MonoBehaviour
             Debug.Log(correct_movablePosition);
             if((Vector2)moveposition == correct_movablePosition){
                 Vector3 pos = Input.mousePosition;
-                Ray ray = Camera.main.ScreenPointToRay(pos);
-                RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
+                pos.z -= Camera.main.transform.position.z;
+                Vector3 worldpos = Camera.main.ScreenToWorldPoint(pos);
+               
+                RaycastHit2D hit = Physics2D.Raycast(worldpos, new Vector3(0, 0, 1));
                 if (hit)
                 {
                     if (hit.transform.GetComponent<Chessman>().team == team)

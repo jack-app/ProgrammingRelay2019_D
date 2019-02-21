@@ -37,9 +37,15 @@ public class GameMaster : MonoBehaviour
             else
             {
                 //オブジェクトが格納されてないとき
+                pos.z -= Camera.main.transform.position.z;
+                Vector3 worldpos = Camera.main.ScreenToWorldPoint(pos);
                 Ray ray = Camera.main.ScreenPointToRay(pos);
+                //Debug.DrawRay(ray.origin, ray.direction);
                 //Debug.Log(ray.origin);
-                RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
+                
+                RaycastHit2D hit = Physics2D.Raycast(worldpos, new Vector3(0,0,1));
+                //Debug.DrawRay(worldpos, new Vector3(0, 0, 1));
+                
                 if (hit)
                 {
 
