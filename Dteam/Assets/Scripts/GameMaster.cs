@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameMaster : MonoBehaviour
 {
 
-    public GameObgect select;
+    public GameObject select;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +21,7 @@ public class GameMaster : MonoBehaviour
     void Click()
     {
         Vector3 pos = Input.mousePosition;
-        RaycastHist hit;
+        RaycastHit hit;
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(pos);
