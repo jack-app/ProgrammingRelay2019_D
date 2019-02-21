@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameMaster : MonoBehaviour
 {
 
+
+
     public GameObject select;
     // Start is called before the first frame update
     void Start()
@@ -21,20 +23,32 @@ public class GameMaster : MonoBehaviour
     void Click()
     {
         Vector3 pos = Input.mousePosition;
-        
+
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(pos);
-            Debug.Log(ray.origin);
-            RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin,(Vector2)ray.direction);
-            if (hit)
+            if (select != null)
             {
-
-                Debug.Log("ヒットしました");
-
-                if (hit.transform.tag == "chessman")
+                pos.z -= Camera.main.transform.position.z;
+                Vector3 world_pos = Camera.main.ScreenToWorldPoint(pos);
+                select.GetComponent<Chessman>().Move(world_pos);
+                Debug.Log(world_pos);
+                select = null;
+            }
+            else
+            {
+                //オブジェクトが格納されてないとき
+                Ray ray = Camera.main.ScreenPointToRay(pos);
+                Debug.Log(ray.origin);
+                RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
+                if (hit)
                 {
-                    select = hit.transform.gameObject;
+
+                    Debug.Log("ヒットしました");
+
+                    if (hit.transform.tag == "chessman")
+                    {
+                        select = hit.transform.gameObject;
+                    }
                 }
             }
         }
