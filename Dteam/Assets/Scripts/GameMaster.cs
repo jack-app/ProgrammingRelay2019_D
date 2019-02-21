@@ -38,12 +38,12 @@ public class GameMaster : MonoBehaviour
             {
                 //オブジェクトが格納されてないとき
                 Ray ray = Camera.main.ScreenPointToRay(pos);
-                Debug.Log(ray.origin);
+                //Debug.Log(ray.origin);
                 RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
                 if (hit)
                 {
 
-                    Debug.Log("ヒットしました");
+                    Debug.Log(hit.transform.gameObject.name);
 
                     if (hit.transform.tag == "chessman")
                     {
