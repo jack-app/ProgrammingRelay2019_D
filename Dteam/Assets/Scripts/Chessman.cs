@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Chessman : MonoBehaviour
 {
@@ -12,6 +13,13 @@ public class Chessman : MonoBehaviour
 
     private Vector2 fieldSize = new Vector2(3, 4);
 
+    public Text text;
+
+    void Start()
+    {
+        text = GameObject.Find("WinText").GetComponent<Text>();
+    }
+
     public void Move(Vector3 moveposition)
     {
         Vector3 correct_pos = new Vector3(Mathf.Round(moveposition.x), Mathf.Round(moveposition.y), 0);
@@ -19,6 +27,7 @@ public class Chessman : MonoBehaviour
 
         transform.position = correct_pos;
         position = correct_pos;
+        GameMaster.turn *= -1;
     }
 
     public bool canMove(Vector3 moveposition){
@@ -38,13 +47,31 @@ public class Chessman : MonoBehaviour
                 pos.z -= Camera.main.transform.position.z;
                 Vector3 worldpos = Camera.main.ScreenToWorldPoint(pos);
                
-                RaycastHit2D hit = Physics2D.Raycast(worldpos, new Vector3(0, 0, 1));
+                RaycastHit2D hit = Physics2D.Raycast(worldpos, new Vector3(0,0,1));
                 if (hit)
                 {
                     if (hit.transform.GetComponent<Chessman>().team == team)
                     {
                         Debug.Log("自分のコマがあります");
                         return false;
+                    }
+                    else
+                    {
+                        if(hit.transform.GetComponent<Chessman>().team !=team)
+                        {
+                            if (hit.transform.gameObject.name == "ou")
+                            {
+                                text.enabled = true;
+                                text.text = "玉の勝ち";
+                            }
+                            if (hit.transform.gameObject.name == "ou_teki")
+                            {
+                                text.enabled = true;
+                                text.text = "王の勝ち";
+                            }
+                            Destroy(hit.transform.gameObject);
+                        }
+                        
                     }
                 }
                 return true;
@@ -53,6 +80,7 @@ public class Chessman : MonoBehaviour
         return false;
     }
 
+    /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(collision.name);
@@ -60,4 +88,5 @@ public class Chessman : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
+    */
 }

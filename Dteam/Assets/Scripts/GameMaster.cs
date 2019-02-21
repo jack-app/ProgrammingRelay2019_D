@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameMaster : MonoBehaviour
 {
@@ -8,16 +9,29 @@ public class GameMaster : MonoBehaviour
 
 
     public GameObject select;
+    Color color;
+    public GameObject chessman;
+    public static int turn=1;
+    public Text text;
     // Start is called before the first frame update
     void Start()
     {
-        
+        color = chessman. GetComponent<SpriteRenderer>().color;
+
     }
 
     // Update is called once per frame
     void Update()
     {
         Click();
+        if (turn == 1)
+        {
+            text.text = "王の番です";
+        }
+        else
+        {
+            text.text = "玉の番です";
+        }
     }
 
     void Click()
@@ -32,6 +46,7 @@ public class GameMaster : MonoBehaviour
                 Vector3 world_pos = Camera.main.ScreenToWorldPoint(pos);
                 select.GetComponent<Chessman>().Move(world_pos);
                 Debug.Log(world_pos);
+                select.GetComponent<SpriteRenderer>().color =color;
                 select = null;
             }
             else
@@ -54,6 +69,7 @@ public class GameMaster : MonoBehaviour
                     if (hit.transform.tag == "chessman")
                     {
                         select = hit.transform.gameObject;
+                        select.GetComponent<SpriteRenderer>().color = Color.red;
                     }
                 }
             }
